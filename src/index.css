@@ -1,0 +1,368 @@
+@import "tailwindcss";
+
+/* Native font smoothing and standard Word typography */
+@layer base {
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Ensure TipTap ProseMirror content inherits font-family properly */
+.ProseMirror {
+  outline: none;
+}
+
+.ProseMirror > :first-child {
+  margin-top: 0 !important;
+}
+
+.ProseMirror p {
+  margin-bottom: 0.5rem;
+}
+
+.ProseMirror h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-top: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.ProseMirror h2 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-top: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.ProseMirror h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  font-style: italic;
+  margin-top: 0.9rem;
+  margin-bottom: 0.35rem;
+}
+
+/* Rich text lists (including inside Smart Table cells) */
+.ProseMirror ul {
+  list-style-type: disc;
+  padding-left: 1.35rem;
+  margin: 0.35rem 0;
+}
+
+.ProseMirror ol {
+  list-style-type: decimal;
+  padding-left: 1.35rem;
+  margin: 0.35rem 0;
+}
+
+.ProseMirror li > p {
+  margin-bottom: 0.15rem;
+}
+
+/* Smart Table (Resizable columns, clean academic borders, cell selection) */
+.ProseMirror .tableWrapper {
+  overflow-x: auto;
+  margin: 0.9rem 0;
+}
+
+.ProseMirror table {
+  border-collapse: collapse;
+  table-layout: fixed;
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid #cbd5e1;
+  background-color: #ffffff;
+}
+
+.ProseMirror td,
+.ProseMirror th {
+  min-width: 50px;
+  border: 1px solid #cbd5e1;
+  padding: 6px 10px;
+  vertical-align: top;
+  box-sizing: border-box;
+  position: relative;
+  text-align: left;
+  line-height: 1.5;
+}
+
+.ProseMirror th {
+  font-weight: 700;
+  background-color: #f1f5f9;
+  color: #0f172a;
+}
+
+.ProseMirror td > p:last-child,
+.ProseMirror th > p:last-child {
+  margin-bottom: 0;
+}
+
+.ProseMirror .selectedCell::after {
+  z-index: 2;
+  position: absolute;
+  content: "";
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(59, 130, 246, 0.14);
+  pointer-events: none;
+}
+
+.ProseMirror .column-resize-handle {
+  position: absolute;
+  right: -2px;
+  top: 0;
+  bottom: -2px;
+  width: 4px;
+  background-color: #3b82f6;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.ProseMirror.resize-cursor {
+  cursor: col-resize;
+}
+
+/* Inserted Modern Chart / Figure Images */
+.ProseMirror img.hm-editor-image,
+.ProseMirror img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0.9rem auto;
+  border-radius: 6px;
+}
+
+.ProseMirror img.ProseMirror-selectednode {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Multi-column Print Layout support */
+.hm-cols-2 .ProseMirror {
+  column-count: 2;
+  column-gap: 28px;
+}
+
+.hm-cols-2 .ProseMirror > h1,
+.hm-cols-2 .ProseMirror > .hm-toc-block,
+.hm-cols-2 .ProseMirror > .hm-page-spacer {
+  column-span: all;
+}
+
+/* Bengali Unicode script safe line-height so tall glyphs / conjuncts never clip */
+.hm-bengali-safe {
+  font-family: "Noto Serif Bengali", "Tinos", "Times New Roman", serif;
+  line-height: 1.98 !important;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+/* Explicit Page Break & Section Break Nodes */
+.hm-page-break,
+.hm-section-break {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 1px;
+  margin: 4px 0;
+  border-top: 1px dashed transparent;
+  user-select: none;
+  pointer-events: auto;
+}
+
+.hm-page-break .hm-break-label,
+.hm-section-break .hm-break-label {
+  display: none;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10px;
+  padding: 1px 8px;
+  border-radius: 3px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+}
+
+/* Show subtle dotted marker when formatting marks are active or in Draft view */
+.hm-show-marks .hm-page-break,
+.hm-draft-surface .hm-page-break {
+  height: 18px;
+  margin: 8px 0;
+  border-top: 1px dashed #93c5fd;
+}
+
+.hm-show-marks .hm-section-break,
+.hm-draft-surface .hm-section-break {
+  height: 18px;
+  margin: 8px 0;
+  border-top: 2px dotted #a5b4fc;
+}
+
+.hm-show-marks .hm-page-break .hm-break-label,
+.hm-show-marks .hm-section-break .hm-break-label,
+.hm-draft-surface .hm-page-break .hm-break-label,
+.hm-draft-surface .hm-section-break .hm-break-label {
+  display: inline-block;
+}
+
+/* Pilcrow formatting marks (¶) */
+.hm-formatting-pilcrow {
+  color: #3b82f6;
+  opacity: 0.7;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.8em;
+  margin-left: 2px;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Draft view lightweight page divider */
+.hm-draft-page-divider {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  border-top: 1px dashed #cbd5e1;
+  margin: 14px 0 8px 0;
+  padding-top: 2px;
+  user-select: none;
+  pointer-events: none;
+}
+
+.hm-draft-page-divider span {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10px;
+  color: #64748b;
+  background: #f8fafc;
+  padding: 0 6px;
+}
+
+/* Live Table of Contents Field Block */
+.hm-toc-block {
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  padding: 14px 18px;
+  margin: 14px 0;
+  border-radius: 4px;
+}
+
+.hm-toc-header {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #1e293b;
+  margin-bottom: 8px;
+  border-bottom: 1px solid #cbd5e1;
+  padding-bottom: 4px;
+}
+
+.hm-toc-row {
+  display: flex;
+  align-items: baseline;
+  font-size: 12px;
+  line-height: 1.7;
+  color: #1e293b;
+}
+
+.hm-toc-title {
+  flex-shrink: 0;
+  max-width: 82%;
+}
+
+.hm-toc-dots {
+  flex: 1;
+  border-bottom: 1px dotted #94a3b8;
+  margin: 0 8px;
+}
+
+.hm-toc-page {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.hm-toc-empty {
+  font-size: 11px;
+  color: #64748b;
+  font-style: italic;
+}
+
+/* Live Cross-Reference inline field chip */
+.hm-cross-ref {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border-bottom: 1px dotted #60a5fa;
+  padding: 0 3px;
+  border-radius: 2px;
+  font-weight: 500;
+}
+
+/* Word Page Sheet Shadow */
+.word-page-shadow {
+  box-shadow:
+    0 2px 6px rgba(15, 23, 42, 0.14),
+    0 10px 24px -4px rgba(15, 23, 42, 0.12);
+}
+
+/* PDF & Print Media Optimization: preserves chosen fonts, headers, footers, footnotes, and Print Range */
+@media print {
+  nav,
+  header,
+  aside,
+  footer,
+  [role="toolbar"],
+  .no-print {
+    display: none !important;
+  }
+
+  body, html {
+    background: #ffffff !important;
+    color: #000000 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  .hm-print-scroll-reset {
+    overflow: visible !important;
+    height: auto !important;
+    background: #ffffff !important;
+    padding: 0 !important;
+    display: block !important;
+  }
+
+  .hm-print-stage-reset {
+    zoom: 1 !important;
+    transform: none !important;
+    width: auto !important;
+    margin: 0 !important;
+  }
+
+  .word-page-shadow {
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  .hm-formatting-pilcrow {
+    display: none !important;
+  }
+
+  .ProseMirror {
+    color: #000000 !important;
+  }
+
+  h1, h2, h3 {
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+}
