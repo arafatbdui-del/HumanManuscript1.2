@@ -7,7 +7,7 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { Editor } from '@tiptap/react';
-import { BubbleMenu } from '@tiptap/react/menus';
+import { BubbleMenu } from '@tiptap/react';
 import {
   ArrowUpFromLine,
   ArrowDownFromLine,
